@@ -1,7 +1,39 @@
 import { useReveal } from "@/hooks/use-reveal"
+import { useNavigate } from "react-router-dom"
+
+const games = [
+  {
+    number: "01",
+    title: "Безопасный дом",
+    category: "🏠 Правила поведения дома · Для детей 5–8 лет",
+    label: "Играть →",
+    direction: "left",
+    path: "/game/safe-home",
+    color: "group-hover:text-orange-300",
+  },
+  {
+    number: "02",
+    title: "Герой улицы",
+    category: "🚦 Правила дорожного движения · Для детей 6–10 лет",
+    label: "Играть →",
+    direction: "right",
+    path: "/game/street-hero",
+    color: "group-hover:text-blue-300",
+  },
+  {
+    number: "03",
+    title: "Умный незнакомец",
+    category: "🙅 Как вести себя с чужими · Для детей 7–11 лет",
+    label: "Играть →",
+    direction: "left",
+    path: "/game/smart-stranger",
+    color: "group-hover:text-violet-300",
+  },
+]
 
 export function WorkSection() {
   const { ref, isVisible } = useReveal(0.3)
+  const navigate = useNavigate()
 
   return (
     <section
@@ -21,74 +53,44 @@ export function WorkSection() {
         </div>
 
         <div className="space-y-6 md:space-y-8">
-          {[
-            {
-              number: "01",
-              title: "Безопасный дом",
-              category: "🏠 Правила поведения дома · Для детей 5–8 лет",
-              year: "Играть →",
-              direction: "left",
-            },
-            {
-              number: "02",
-              title: "Герой улицы",
-              category: "🚦 Правила дорожного движения · Для детей 6–10 лет",
-              year: "Играть →",
-              direction: "right",
-            },
-            {
-              number: "03",
-              title: "Умный незнакомец",
-              category: "🙅 Как вести себя с чужими · Для детей 7–11 лет",
-              year: "Играть →",
-              direction: "left",
-            },
-          ].map((project, i) => (
-            <ProjectCard key={i} project={project} index={i} isVisible={isVisible} />
-          ))}
+          {games.map((game, i) => {
+            const getRevealClass = () => {
+              if (!isVisible) {
+                return game.direction === "left" ? "-translate-x-16 opacity-0" : "translate-x-16 opacity-0"
+              }
+              return "translate-x-0 opacity-100"
+            }
+
+            return (
+              <div
+                key={i}
+                onClick={() => navigate(game.path)}
+                className={`group flex items-center justify-between border-b border-foreground/10 py-6 transition-all duration-700 hover:border-foreground/20 md:py-8 cursor-pointer ${getRevealClass()}`}
+                style={{
+                  transitionDelay: `${i * 150}ms`,
+                  marginLeft: i % 2 === 0 ? "0" : "auto",
+                  maxWidth: i % 2 === 0 ? "85%" : "90%",
+                }}
+              >
+                <div className="flex items-baseline gap-4 md:gap-8">
+                  <span className="font-mono text-sm text-foreground/30 transition-colors group-hover:text-foreground/50 md:text-base">
+                    {game.number}
+                  </span>
+                  <div>
+                    <h3 className={`mb-1 font-sans text-2xl font-light text-foreground transition-all duration-300 group-hover:translate-x-2 md:text-3xl lg:text-4xl ${game.color}`}>
+                      {game.title}
+                    </h3>
+                    <p className="font-mono text-xs text-foreground/50 md:text-sm">{game.category}</p>
+                  </div>
+                </div>
+                <span className="font-mono text-xs text-foreground/30 transition-colors group-hover:text-foreground/70 md:text-sm">
+                  {game.label}
+                </span>
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>
-  )
-}
-
-function ProjectCard({
-  project,
-  index,
-  isVisible,
-}: {
-  project: { number: string; title: string; category: string; year: string; direction: string }
-  index: number
-  isVisible: boolean
-}) {
-  const getRevealClass = () => {
-    if (!isVisible) {
-      return project.direction === "left" ? "-translate-x-16 opacity-0" : "translate-x-16 opacity-0"
-    }
-    return "translate-x-0 opacity-100"
-  }
-
-  return (
-    <div
-      className={`group flex items-center justify-between border-b border-foreground/10 py-6 transition-all duration-700 hover:border-foreground/20 md:py-8 ${getRevealClass()}`}
-      style={{
-        transitionDelay: `${index * 150}ms`,
-        marginLeft: index % 2 === 0 ? "0" : "auto",
-        maxWidth: index % 2 === 0 ? "85%" : "90%",
-      }}
-    >
-      <div className="flex items-baseline gap-4 md:gap-8">
-        <span className="font-mono text-sm text-foreground/30 transition-colors group-hover:text-foreground/50 md:text-base">
-          {project.number}
-        </span>
-        <div>
-          <h3 className="mb-1 font-sans text-2xl font-light text-foreground transition-transform duration-300 group-hover:translate-x-2 md:text-3xl lg:text-4xl">
-            {project.title}
-          </h3>
-          <p className="font-mono text-xs text-foreground/50 md:text-sm">{project.category}</p>
-        </div>
-      </div>
-      <span className="font-mono text-xs text-foreground/30 md:text-sm">{project.year}</span>
-    </div>
   )
 }
