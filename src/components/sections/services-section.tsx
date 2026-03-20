@@ -15,31 +15,31 @@ export function ServicesSection() {
           }`}
         >
           <h2 className="mb-2 font-sans text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
-            Услуги
+            Правила
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Наши компетенции</p>
+          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Чему учат наши игры</p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 md:gap-x-16 md:gap-y-12 lg:gap-x-24">
           {[
             {
-              title: "Веб-разработка",
-              description: "Создание современных веб-приложений любой сложности",
+              title: "🔥 Пожарная безопасность",
+              description: "Дети узнают, что делать при пожаре, как вызвать 112 и почему нельзя играть со спичками",
               direction: "top",
             },
             {
-              title: "UI/UX Дизайн",
-              description: "Проектирование удобных и красивых интерфейсов",
+              title: "🚗 Правила на дороге",
+              description: "Светофор, пешеходный переход, велосипед — всё в игровых ситуациях с наградами за правильный выбор",
               direction: "right",
             },
             {
-              title: "Мобильные приложения",
-              description: "Кроссплатформенная разработка для iOS и Android",
+              title: "🚪 Безопасность дома",
+              description: "Острые предметы, электроприборы, лекарства — игра учит распознавать опасности в быту",
               direction: "left",
             },
             {
-              title: "Консалтинг",
-              description: "Техническая экспертиза и стратегическое планирование",
+              title: "🙋 Правило чужого",
+              description: "Как реагировать на незнакомцев, кому можно доверять и что говорить, если потерялся",
               direction: "bottom",
             },
           ].map((service, i) => (

@@ -15,32 +15,32 @@ export function WorkSection() {
           }`}
         >
           <h2 className="mb-2 font-sans text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
-            Проекты
+            Игры
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Избранные работы</p>
+          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Три истории про безопасность</p>
         </div>
 
         <div className="space-y-6 md:space-y-8">
           {[
             {
               number: "01",
-              title: "ТехноСтарт",
-              category: "Корпоративный портал",
-              year: "2024",
+              title: "Безопасный дом",
+              category: "🏠 Правила поведения дома · Для детей 5–8 лет",
+              year: "Играть →",
               direction: "left",
             },
             {
               number: "02",
-              title: "АльфаТрейд",
-              category: "Финтех платформа",
-              year: "2024",
+              title: "Герой улицы",
+              category: "🚦 Правила дорожного движения · Для детей 6–10 лет",
+              year: "Играть →",
               direction: "right",
             },
             {
               number: "03",
-              title: "МедиаПульс",
-              category: "Медиа сервис",
-              year: "2023",
+              title: "Умный незнакомец",
+              category: "🙅 Как вести себя с чужими · Для детей 7–11 лет",
+              year: "Играть →",
               direction: "left",
             },
           ].map((project, i) => (
