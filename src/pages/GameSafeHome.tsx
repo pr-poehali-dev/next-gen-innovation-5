@@ -65,12 +65,13 @@ export default function GameSafeHome() {
       config={{
         title: "Безопасный дом",
         emoji: "🏠",
-        accentFrom: "from-orange-900",
-        accentTo: "to-red-950",
-        accentBtn: "bg-orange-400 text-orange-950",
-        accentBtnHover: "hover:bg-orange-300",
-        accentBar: "bg-orange-400",
-        starsColor: "text-orange-300",
+        bgColor: "bg-orange-300",
+        cardColor: "bg-white",
+        btnColor: "bg-orange-400",
+        btnText: "text-white",
+        barColor: "bg-orange-500",
+        dotColor: "bg-orange-500",
+        mascot: "🦊",
       }}
     />
   )

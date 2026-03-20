@@ -65,12 +65,13 @@ export default function GameStreetHero() {
       config={{
         title: "Герой улицы",
         emoji: "🚦",
-        accentFrom: "from-blue-900",
-        accentTo: "to-indigo-950",
-        accentBtn: "bg-cyan-400 text-cyan-950",
-        accentBtnHover: "hover:bg-cyan-300",
-        accentBar: "bg-cyan-400",
-        starsColor: "text-cyan-300",
+        bgColor: "bg-sky-300",
+        cardColor: "bg-white",
+        btnColor: "bg-blue-500",
+        btnText: "text-white",
+        barColor: "bg-blue-600",
+        dotColor: "bg-blue-600",
+        mascot: "🐧",
       }}
     />
   )

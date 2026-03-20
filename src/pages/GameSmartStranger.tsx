@@ -65,12 +65,13 @@ export default function GameSmartStranger() {
       config={{
         title: "Умный незнакомец",
         emoji: "🙅",
-        accentFrom: "from-violet-900",
-        accentTo: "to-purple-950",
-        accentBtn: "bg-violet-400 text-violet-950",
-        accentBtnHover: "hover:bg-violet-300",
-        accentBar: "bg-violet-400",
-        starsColor: "text-violet-300",
+        bgColor: "bg-purple-300",
+        cardColor: "bg-white",
+        btnColor: "bg-purple-500",
+        btnText: "text-white",
+        barColor: "bg-purple-600",
+        dotColor: "bg-purple-600",
+        mascot: "🦉",
       }}
     />
   )

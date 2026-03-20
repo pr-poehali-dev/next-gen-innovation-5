@@ -13,12 +13,13 @@ export type GameStep = {
 type GameConfig = {
   title: string
   emoji: string
-  accentFrom: string
-  accentTo: string
-  accentBtn: string
-  accentBtnHover: string
-  accentBar: string
-  starsColor: string
+  bgColor: string
+  cardColor: string
+  btnColor: string
+  btnText: string
+  barColor: string
+  dotColor: string
+  mascot: string
 }
 
 type Props = {
@@ -34,6 +35,7 @@ export function GameLayout({ steps, config }: Props) {
   const [feedback, setFeedback] = useState("")
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
   const [finished, setFinished] = useState(false)
+  const [showPop, setShowPop] = useState(false)
 
   const step = steps[currentStep]
 
@@ -43,7 +45,11 @@ export function GameLayout({ steps, config }: Props) {
     setSelected(index)
     setIsCorrect(answer.correct)
     setFeedback(answer.feedback)
-    if (answer.correct) setScore((s) => s + 1)
+    if (answer.correct) {
+      setScore((s) => s + 1)
+      setShowPop(true)
+      setTimeout(() => setShowPop(false), 600)
+    }
   }
 
   const handleNext = () => {
@@ -67,104 +73,122 @@ export function GameLayout({ steps, config }: Props) {
   }
 
   const stars = score >= steps.length ? 3 : score >= Math.ceil(steps.length / 2) ? 2 : 1
+  const letters = ["А", "Б", "В"]
 
   return (
-    <div className={`min-h-screen flex flex-col bg-gradient-to-br ${config.accentFrom} ${config.accentTo}`}
-      style={{ fontFamily: "'Nunito', sans-serif" }}>
+    <div className={`min-h-screen flex flex-col ${config.bgColor} relative overflow-hidden`}>
 
-      {/* Декоративные кружки фона */}
+      {/* Декоративные облака-кружки */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-white/5 blur-3xl" />
-        <div className="absolute top-1/2 -right-32 w-96 h-96 rounded-full bg-white/5 blur-3xl" />
-        <div className="absolute -bottom-20 left-1/3 w-80 h-80 rounded-full bg-white/5 blur-3xl" />
+        <div className="absolute -top-16 -left-16 w-48 h-48 rounded-full bg-white/30" />
+        <div className="absolute top-10 right-10 w-32 h-32 rounded-full bg-white/20" />
+        <div className="absolute bottom-20 -left-10 w-40 h-40 rounded-full bg-white/25" />
+        <div className="absolute -bottom-10 right-20 w-56 h-56 rounded-full bg-white/20" />
+        <div className="absolute top-1/3 left-1/2 w-24 h-24 rounded-full bg-white/15" />
+        {/* Звёздочки */}
+        <div className="absolute top-16 left-1/4 text-2xl float" style={{ animationDelay: "0s" }}>⭐</div>
+        <div className="absolute top-32 right-1/4 text-xl float" style={{ animationDelay: "1s" }}>✨</div>
+        <div className="absolute bottom-40 right-10 text-2xl float" style={{ animationDelay: "0.5s" }}>🌟</div>
       </div>
 
       {/* Header */}
-      <header className="relative z-10 flex items-center justify-between px-5 py-4">
+      <header className="relative z-10 flex items-center justify-between px-4 pt-4 pb-2">
         <button
           onClick={() => navigate("/")}
-          className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/15 hover:bg-white/25 transition-all text-white font-bold text-sm backdrop-blur-sm"
+          className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-white font-black text-sm cartoon-border cartoon-press"
+          style={{ color: "#2d1b69" }}
         >
           <Icon name="ArrowLeft" size={16} />
           Назад
         </button>
 
-        <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/15 backdrop-blur-sm">
+        <div className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white cartoon-border">
           <span className="text-xl">{config.emoji}</span>
-          <span className="font-extrabold text-white text-sm">{config.title}</span>
+          <span className="font-black text-sm" style={{ color: "#2d1b69" }}>{config.title}</span>
         </div>
 
-        <div className="flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-white/15 backdrop-blur-sm">
-          <span className="text-yellow-300 text-sm">⭐</span>
-          <span className="font-extrabold text-white text-sm">{score}/{steps.length}</span>
+        <div className={`flex items-center gap-1.5 px-4 py-2.5 rounded-2xl ${config.btnColor} cartoon-border`}>
+          <span className="text-lg">⭐</span>
+          <span className={`font-black text-sm ${config.btnText}`}>
+            {score}/{steps.length}
+          </span>
+          {showPop && <span className="pop-in text-base">+1</span>}
         </div>
       </header>
 
-      {/* Progress bar */}
+      {/* Progress */}
       {!finished && (
-        <div className="relative z-10 px-5 pb-2">
-          <div className="flex gap-1.5 mb-1">
+        <div className="relative z-10 px-4 py-2">
+          <div className="flex gap-2 mb-1">
             {steps.map((_, i) => (
-              <div key={i} className="relative h-3 flex-1 rounded-full bg-white/20 overflow-hidden">
+              <div key={i} className="relative h-4 flex-1 rounded-full bg-white cartoon-border-sm overflow-hidden">
                 <div
-                  className={`absolute inset-y-0 left-0 rounded-full transition-all duration-700 ${config.accentBar}`}
-                  style={{ width: i < currentStep ? "100%" : i === currentStep ? "50%" : "0%" }}
+                  className={`absolute inset-y-0 left-0 rounded-full transition-all duration-700 ${config.barColor}`}
+                  style={{ width: i < currentStep ? "100%" : i === currentStep ? "55%" : "0%" }}
                 />
               </div>
             ))}
           </div>
-          <p className="text-white/60 text-xs font-bold text-center">
+          <p className="text-center text-xs font-black" style={{ color: "#2d1b69" }}>
             Вопрос {currentStep + 1} из {steps.length}
           </p>
         </div>
       )}
 
-      {/* Main content */}
-      <div className="relative z-10 flex-1 flex items-center justify-center px-4 py-6">
+      {/* Content */}
+      <div className="relative z-10 flex-1 flex items-center justify-center px-4 py-4">
         {finished ? (
           /* ===== ФИНАЛЬНЫЙ ЭКРАН ===== */
-          <div className="w-full max-w-md">
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 text-center border border-white/20 shadow-2xl">
-              <div className="text-8xl mb-4 animate-bounce">
+          <div className="w-full max-w-md pop-in">
+            <div className="bg-white rounded-3xl p-8 text-center cartoon-border shadow-none">
+              {/* Маскот */}
+              <div className="text-7xl mb-2 float">{config.mascot}</div>
+              <div className="text-6xl mb-4 animate-bounce">
                 {stars === 3 ? "🏆" : stars === 2 ? "🥈" : "🎖️"}
               </div>
 
-              <h2 className="font-black text-white text-3xl mb-1">
-                {score === steps.length ? "Супер!" : score >= Math.ceil(steps.length / 2) ? "Молодец!" : "Не сдавайся!"}
+              <h2 className="font-black text-3xl mb-1" style={{ color: "#2d1b69" }}>
+                {score === steps.length ? "Ура! Супер!" : score >= Math.ceil(steps.length / 2) ? "Молодец!" : "Не сдавайся!"}
               </h2>
 
-              <p className="text-white/70 font-bold text-sm mb-4">
+              <p className="font-bold text-sm mb-4" style={{ color: "#5b4299" }}>
                 Правильных ответов: {score} из {steps.length}
               </p>
 
-              <div className="flex justify-center gap-2 mb-6">
+              <div className="flex justify-center gap-3 mb-6">
                 {Array.from({ length: 3 }).map((_, i) => (
                   <span
                     key={i}
-                    className={`text-4xl transition-all duration-500 ${i < stars ? "opacity-100 scale-110" : "opacity-20 grayscale"}`}
-                    style={{ transitionDelay: `${i * 100}ms` }}
+                    className={`text-4xl stars-rain ${i < stars ? "opacity-100" : "opacity-20 grayscale"}`}
+                    style={{ animationDelay: `${i * 150}ms` }}
                   >
                     ⭐
                   </span>
                 ))}
               </div>
 
-              <p className="text-white/80 text-sm font-semibold leading-relaxed mb-8 bg-white/10 rounded-2xl px-4 py-3">
-                {score === steps.length
-                  ? "Ты настоящий чемпион безопасности! Расскажи друзьям эти правила 🎉"
-                  : "Потренируйся ещё — и ты запомнишь все важные правила! 💪"}
-              </p>
+              <div
+                className="rounded-2xl px-4 py-3 mb-6 cartoon-border-sm"
+                style={{ background: "#fef9c3" }}
+              >
+                <p className="font-bold text-sm leading-relaxed" style={{ color: "#2d1b69" }}>
+                  {score === steps.length
+                    ? "Ты настоящий чемпион безопасности! Расскажи друзьям эти правила 🎉"
+                    : "Потренируйся ещё — и ты запомнишь все важные правила! 💪"}
+                </p>
+              </div>
 
               <div className="flex flex-col gap-3">
                 <button
                   onClick={handleRestart}
-                  className={`w-full py-4 rounded-2xl font-black text-base transition-all active:scale-95 shadow-lg ${config.accentBtn} ${config.accentBtnHover}`}
+                  className={`w-full py-4 rounded-2xl font-black text-base cartoon-border cartoon-press ${config.btnColor} ${config.btnText}`}
                 >
                   🔄 Играть снова!
                 </button>
                 <button
                   onClick={() => navigate("/")}
-                  className="w-full py-4 rounded-2xl bg-white/15 hover:bg-white/25 text-white font-black text-base transition-all active:scale-95"
+                  className="w-full py-4 rounded-2xl bg-white font-black text-base cartoon-border cartoon-press"
+                  style={{ color: "#2d1b69" }}
                 >
                   🎮 Другие игры
                 </button>
@@ -175,44 +199,65 @@ export function GameLayout({ steps, config }: Props) {
           /* ===== ИГРОВОЙ ЭКРАН ===== */
           <div className="w-full max-w-2xl">
             {/* Карточка сцены */}
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 mb-5 border border-white/20 text-center shadow-xl">
-              <div className="text-6xl mb-3">{step.emoji}</div>
-              <p className="text-white font-bold text-base md:text-lg leading-relaxed mb-4">
+            <div className="bg-white rounded-3xl p-5 mb-4 cartoon-border text-center">
+              <div className="text-5xl mb-3 wiggle">{step.emoji}</div>
+              <p className="font-bold text-sm md:text-base leading-relaxed mb-3" style={{ color: "#2d1b69" }}>
                 {step.scene}
               </p>
-              <div className="bg-white/15 rounded-2xl px-4 py-3">
-                <p className="text-white font-extrabold text-lg md:text-xl">
+              <div className="rounded-2xl px-4 py-3 cartoon-border-sm" style={{ background: "#fef9c3" }}>
+                <p className="font-black text-base md:text-lg" style={{ color: "#2d1b69" }}>
                   {step.question}
                 </p>
               </div>
             </div>
 
             {/* Варианты ответов */}
-            <div className="space-y-3 mb-5">
+            <div className="space-y-3 mb-4">
               {step.answers.map((answer, i) => {
-                const letters = ["А", "Б", "В"]
-                let cls = "w-full text-left px-5 py-4 rounded-2xl border-2 transition-all duration-300 font-bold text-sm md:text-base flex items-center gap-3 "
+                let cardBg = "bg-white"
+                let textColor = "text-[#2d1b69]"
+                let borderStyle = "cartoon-border"
+                let extra = ""
 
-                if (selected === null) {
-                  cls += "border-white/25 bg-white/10 text-white hover:bg-white/20 hover:border-white/40 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
-                } else if (i === selected) {
-                  cls += answer.correct
-                    ? "border-green-400 bg-green-500/30 text-white scale-[1.02]"
-                    : "border-red-400 bg-red-500/30 text-white"
-                } else if (answer.correct) {
-                  cls += "border-green-400/50 bg-green-500/15 text-white/70"
-                } else {
-                  cls += "border-white/10 bg-white/5 text-white/30"
+                if (selected !== null) {
+                  if (i === selected && answer.correct) {
+                    cardBg = "bg-green-100"
+                    textColor = "text-green-800"
+                    borderStyle = ""
+                    extra = "border-4 border-green-500 shadow-[4px_4px_0px_#16a34a]"
+                  } else if (i === selected && !answer.correct) {
+                    cardBg = "bg-red-100"
+                    textColor = "text-red-800"
+                    borderStyle = ""
+                    extra = "border-4 border-red-500 shadow-[4px_4px_0px_#dc2626]"
+                  } else if (answer.correct) {
+                    cardBg = "bg-green-50"
+                    textColor = "text-green-700"
+                    borderStyle = ""
+                    extra = "border-2 border-green-400 shadow-[2px_2px_0px_#86efac] opacity-80"
+                  } else {
+                    cardBg = "bg-white"
+                    textColor = "text-gray-400"
+                    borderStyle = ""
+                    extra = "border-2 border-gray-200 shadow-[2px_2px_0px_#e5e7eb] opacity-50"
+                  }
                 }
 
                 return (
-                  <button key={i} className={cls} onClick={() => handleAnswer(i)}>
-                    <span className="flex-shrink-0 w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center font-black text-sm">
+                  <button
+                    key={i}
+                    onClick={() => handleAnswer(i)}
+                    disabled={selected !== null}
+                    className={`w-full text-left px-4 py-4 rounded-2xl flex items-center gap-3 font-bold text-sm md:text-base transition-transform duration-150 ${cardBg} ${textColor} ${borderStyle} ${extra} ${selected === null ? "hover:scale-[1.02] cartoon-press cursor-pointer" : ""}`}
+                  >
+                    <span
+                      className={`flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm ${config.btnColor} ${config.btnText} cartoon-border-sm`}
+                    >
                       {letters[i]}
                     </span>
                     <span className="flex-1">{answer.text}</span>
                     {selected !== null && i === selected && (
-                      <span className="flex-shrink-0 text-xl">{answer.correct ? "✅" : "❌"}</span>
+                      <span className="flex-shrink-0 text-xl pop-in">{answer.correct ? "✅" : "❌"}</span>
                     )}
                     {selected !== null && answer.correct && i !== selected && (
                       <span className="flex-shrink-0 text-xl">✅</span>
@@ -224,12 +269,13 @@ export function GameLayout({ steps, config }: Props) {
 
             {/* Фидбек */}
             {feedback && (
-              <div className={`rounded-2xl px-5 py-4 mb-5 border-2 font-bold text-sm leading-relaxed ${
-                isCorrect
-                  ? "bg-green-500/20 border-green-400/50 text-white"
-                  : "bg-red-500/20 border-red-400/50 text-white"
-              }`}>
-                <span className="mr-2">{isCorrect ? "✅" : "💡"}</span>
+              <div
+                className={`rounded-2xl px-4 py-4 mb-4 cartoon-border-sm font-bold text-sm leading-relaxed pop-in ${
+                  isCorrect ? "bg-green-100" : "bg-red-50"
+                }`}
+                style={{ color: "#2d1b69" }}
+              >
+                <span className="mr-2 text-lg">{isCorrect ? "🎉" : "💡"}</span>
                 {feedback}
               </div>
             )}
@@ -237,9 +283,9 @@ export function GameLayout({ steps, config }: Props) {
             {selected !== null && (
               <button
                 onClick={handleNext}
-                className={`w-full py-4 rounded-2xl font-black text-base transition-all active:scale-95 shadow-lg ${config.accentBtn} ${config.accentBtnHover}`}
+                className={`w-full py-4 rounded-2xl font-black text-base cartoon-border cartoon-press ${config.btnColor} ${config.btnText} pop-in`}
               >
-                {currentStep + 1 >= steps.length ? "🎉 Узнать результат!" : "Следующий вопрос →"}
+                {currentStep + 1 >= steps.length ? "🎉 Узнать результат!" : "Вперёд! →"}
               </button>
             )}
           </div>
