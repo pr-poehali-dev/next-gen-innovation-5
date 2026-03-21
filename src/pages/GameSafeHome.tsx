@@ -72,6 +72,9 @@ export default function GameSafeHome() {
         barColor: "bg-orange-500",
         dotColor: "bg-orange-500",
         mascot: "🦊",
+        mascotImg: "https://cdn.poehali.dev/projects/64d85802-8dc9-4f44-bca9-3862d72177d1/files/ed74d1e1-6427-4519-98f4-2e99f9585920.jpg",
+        mascotName: "Лисёнок Огнёк",
+        mascotPhrase: "Привет! Я Огнёк — помогу тебе узнать правила безопасного дома! 🏠",
       }}
     />
   )

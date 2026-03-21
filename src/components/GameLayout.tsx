@@ -20,6 +20,9 @@ type GameConfig = {
   barColor: string
   dotColor: string
   mascot: string
+  mascotImg: string
+  mascotName: string
+  mascotPhrase: string
 }
 
 type Props = {
@@ -141,9 +144,15 @@ export function GameLayout({ steps, config }: Props) {
           /* ===== ФИНАЛЬНЫЙ ЭКРАН ===== */
           <div className="w-full max-w-md pop-in">
             <div className="bg-white rounded-3xl p-8 text-center cartoon-border shadow-none">
-              {/* Маскот */}
-              <div className="text-7xl mb-2 float">{config.mascot}</div>
-              <div className="text-6xl mb-4 animate-bounce">
+              {/* Персонаж */}
+              <div className="relative mx-auto w-32 h-32 mb-2 float">
+                <img
+                  src={config.mascotImg}
+                  alt={config.mascotName}
+                  className="w-full h-full object-contain drop-shadow-lg"
+                />
+              </div>
+              <div className="text-5xl mb-3 animate-bounce">
                 {stars === 3 ? "🏆" : stars === 2 ? "🥈" : "🎖️"}
               </div>
 
@@ -198,6 +207,25 @@ export function GameLayout({ steps, config }: Props) {
         ) : (
           /* ===== ИГРОВОЙ ЭКРАН ===== */
           <div className="w-full max-w-2xl">
+            {/* Персонаж с репликой */}
+            <div className="flex items-end gap-3 mb-3">
+              <div className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 float">
+                <img
+                  src={config.mascotImg}
+                  alt={config.mascotName}
+                  className="w-full h-full object-contain drop-shadow-md"
+                />
+              </div>
+              <div className="relative bg-white rounded-3xl rounded-bl-sm px-4 py-3 cartoon-border flex-1">
+                {/* хвостик пузыря */}
+                <div className="absolute -left-3 bottom-3 w-4 h-4 bg-white border-l-[3px] border-b-[3px] border-[#2d1b69]"
+                  style={{ clipPath: "polygon(100% 0, 0 100%, 100% 100%)" }} />
+                <p className="font-black text-xs md:text-sm" style={{ color: "#2d1b69" }}>
+                  {config.mascotPhrase}
+                </p>
+              </div>
+            </div>
+
             {/* Карточка сцены */}
             <div className="bg-white rounded-3xl p-5 mb-4 cartoon-border text-center">
               <div className="text-5xl mb-3 wiggle">{step.emoji}</div>

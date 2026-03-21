@@ -72,6 +72,9 @@ export default function GameSmartStranger() {
         barColor: "bg-purple-600",
         dotColor: "bg-purple-600",
         mascot: "🦉",
+        mascotImg: "https://cdn.poehali.dev/projects/64d85802-8dc9-4f44-bca9-3862d72177d1/files/c1ecf697-7eff-4466-b4b2-8d45b3951dfe.jpg",
+        mascotName: "Сова Мудра",
+        mascotPhrase: "Я Мудра! Знаю, как оставаться в безопасности с незнакомцами. Ты готов? 🦉",
       }}
     />
   )

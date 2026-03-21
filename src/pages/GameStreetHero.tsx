@@ -72,6 +72,9 @@ export default function GameStreetHero() {
         barColor: "bg-blue-600",
         dotColor: "bg-blue-600",
         mascot: "🐧",
+        mascotImg: "https://cdn.poehali.dev/projects/64d85802-8dc9-4f44-bca9-3862d72177d1/files/843f019d-b890-4de8-8737-1ab1123c9af8.jpg",
+        mascotName: "Пингвин Патруль",
+        mascotPhrase: "Я Патруль — знаю все правила дороги! Давай проверим, знаешь ли ты? 🚦",
       }}
     />
   )
